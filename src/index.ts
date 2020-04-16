@@ -11,13 +11,15 @@ import socket from 'socket.io'
 import { onConnect } from 'socket'
 
 const app = new Koa()
+
+app.use(cors({ origin: '*' }))
+
 const server = http.createServer(app.callback())
 const io = socket(server, { origins: '*:*' })
 
 io.on('connection', onConnect)
 
 app.use(bodyParser())
-app.use(cors({ origin: '*' }))
 app.use(connectionMiddleware)
 
 app.use(async (ctx, next) => {
