@@ -12,7 +12,7 @@ import { onConnect } from 'socket'
 
 const app = new Koa()
 
-app.use(cors({ origin: '*', credentials: true }))
+app.use(cors({ origin: 'gracious-engelbart-7cea54.netlify.app', credentials: true }))
 
 const server = http.createServer(app.callback())
 const io = socket(server, { origins: '*:*' })
