@@ -9,7 +9,8 @@
     "dev": "nodemon --exec \"yarn type-check && yarn start\"",
     "type-check": "tsc",
     "start": "babel-node src --extensions \".ts,.tsx\"",
-    "build": "./node_modules/.bin/babel src --out-dir build --extensions \".ts,.tsx\""
+    "build": "./node_modules/.bin/babel src --out-dir build --extensions \".ts,.tsx\"",
+    "start:prod": "node build"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
