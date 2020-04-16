@@ -12,7 +12,7 @@ import { onConnect } from 'socket'
 
 const app = new Koa()
 
-app.use(cors({ origin: '*' }))
+app.use(cors({ origin: '*', credentials: true }))
 
 const server = http.createServer(app.callback())
 const io = socket(server, { origins: '*:*' })
