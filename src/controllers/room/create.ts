@@ -1,10 +1,11 @@
 import { Context } from 'koa'
 
 export const createRoom = async (ctx: Context) => {
-  const { body: { username, name } } = ctx.request
+  const { body: { username, name, avatarColor } } = ctx.request
 
   const user = await ctx.state.userRepository.save({
     username,
+    avatarColor,
   })
 
   const room = await ctx.state.roomRepository.save({

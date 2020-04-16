@@ -11,6 +11,9 @@ export class User {
   @Column('text', { nullable: false })
   username: string
 
+  @Column('text', { nullable: false })
+  avatarColor: string
+
 
   @ManyToOne(type => Room, room => room.users)
   room: Room
