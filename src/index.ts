@@ -12,7 +12,7 @@ import { onConnect } from 'socket'
 
 const app = new Koa()
 const server = http.createServer(app.callback())
-const io = socket(server)
+const io = socket(server, { origins: '*:*' })
 
 io.on('connection', onConnect)
 
