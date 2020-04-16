@@ -6,11 +6,11 @@
   "author": "Demyan Dubovik <demyandubovik@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec \"yarn type-check && yarn start\"",
+    "dev": "nodemon --exec \"yarn type-check && yarn start:dev\"",
     "type-check": "tsc",
-    "start": "babel-node src --extensions \".ts,.tsx\"",
+    "start:dev": "babel-node src --extensions \".ts,.tsx\"",
     "build": "./node_modules/.bin/babel src --out-dir build --extensions \".ts,.tsx\"",
-    "start:prod": "node build"
+    "start": "node build"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
