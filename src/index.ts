@@ -1,3 +1,5 @@
+import { connect, connectionMiddleware } from 'middlewares/connection'
+import 'reflect-metadata'
 require('dotenv').config()
 
 import Koa from 'koa'
@@ -9,11 +11,14 @@ const app = new Koa()
 
 app.use(bodyParser())
 app.use(cors({ origin: '*' }))
+app.use(connectionMiddleware)
 
-app.use(router.routes())
+app
+  .use(router.routes())
+  .use(router.allowedMethods())
 
-app.use(async ctx => {
-  ctx.body = 'ts!'
-})
-
-app.listen(process.env.PORT || 3000)
+connect()
+  .then(() => {
+    console.log('Successfully connected to Database')
+    app.listen(process.env.PORT || 3000)
+  })
