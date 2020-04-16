@@ -1,4 +1,4 @@
 export enum SocketEvents {
-  usecConnected = 'userConnected',
+  userConnected = 'userConnected',
   auth = 'auth',
 }

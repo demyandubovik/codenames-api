@@ -22,7 +22,7 @@ export const joinRoom = async (ctx: Context) => {
 
   await ctx.state.roomRepository.save(room)
 
-  ctx.io.sockets.in(room.id).emit(SocketEvents.usecConnected, user)
+  ctx.io.sockets.in(room.id).emit(SocketEvents.userConnected, user)
 
   ctx.body = {
     room,
