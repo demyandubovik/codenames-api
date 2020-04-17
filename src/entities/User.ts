@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 import { Room } from 'entities/Room'
+import { Team } from 'entities/Team'
 
 @Entity()
 export class User {
@@ -17,4 +18,10 @@ export class User {
 
   @ManyToOne(type => Room, room => room.users)
   room: Room
+
+  @ManyToOne(type => Team, team => team.users)
+  team: Team
+
+  @Column('number', { nullable: true })
+  teamId: number
 }

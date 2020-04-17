@@ -17,7 +17,7 @@ app.use(cors({ origin: ctx => {
   if (whiteList.includes(ctx.request.headers.origin)) {
     return ctx.request.headers.origin
   }
-  }, credentials: true }))
+}, credentials: true }))
 
 const server = http.createServer(app.callback())
 const io = socket(server, { origins: '*:*' })

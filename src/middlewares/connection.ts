@@ -1,13 +1,23 @@
 import { createConnection, getConnection } from 'typeorm'
 import { User } from 'entities/User'
 import { Room } from 'entities/Room'
+import { Team } from 'entities/Team'
 
 require('dotenv').config()
 
+const entities = [
+  User,
+  Room,
+  Team,
+]
+
 export const connectionMiddleware = async (ctx, next) => {
   ctx.state.connection = await getConnection()
-  ctx.state.userRepository = ctx.state.connection.getRepository(User)
-  ctx.state.roomRepository = ctx.state.connection.getRepository(Room)
+  entities.forEach(entity => {
+    ctx.state[
+      `${ctx.state.connection.getMetadata(entity).name.toLowerCase()}Repository`
+    ] = ctx.state.connection.getRepository(entity)
+  })
   await next()
 }
 
@@ -17,8 +27,5 @@ export const connect = () => createConnection({
   synchronize: true,
   dropSchema: true,
   logging: false,
-  entities: [
-    User,
-    Room,
-  ],
+  entities,
 })

@@ -6,7 +6,7 @@ export const joinRoom = async (ctx: Context) => {
 
   const room = await ctx.state.roomRepository.findOne({
     id: roomId,
-    relations: ['users'],
+    relations: ['users', 'red'],
   })
 
   if (!room) {
@@ -25,7 +25,10 @@ export const joinRoom = async (ctx: Context) => {
   ctx.io.sockets.in(room.id).emit(SocketEvents.userConnected, user)
 
   ctx.body = {
-    room,
+    room: await ctx.state.roomRepository.findOne({
+      id: roomId,
+      relations: ['users', 'red', 'blue'],
+    }),
     user,
   }
 }
