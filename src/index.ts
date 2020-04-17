@@ -9,10 +9,15 @@ import { router } from 'routes'
 import http from 'http'
 import socket from 'socket.io'
 import { onConnect } from 'socket'
+import { whiteList } from 'constants/origins'
 
 const app = new Koa()
 
-app.use(cors({ origin: 'https://react-codenames.netlify.app', credentials: true }))
+app.use(cors({ origin: ctx => {
+  if (whiteList.includes(ctx.request.headers.origin)) {
+    return ctx.request.headers.origin
+  }
+  }, credentials: true }))
 
 const server = http.createServer(app.callback())
 const io = socket(server, { origins: '*:*' })
