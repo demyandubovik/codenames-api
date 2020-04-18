@@ -3,9 +3,7 @@ import { SocketEvents } from 'constants/socketEvents'
 export const makeCaptain = async ctx => {
   const { teamId, userId } = ctx.request.body
 
-  const team = await ctx.state.teamRepository.findOne({
-    id: teamId,
-  })
+  const team = await ctx.state.teamRepository.findOne(teamId)
 
   if (!team) {
     return ctx.throw(404)
@@ -25,9 +23,7 @@ export const makeCaptain = async ctx => {
     return ctx.throw(403)
   }
 
-  const user = await ctx.state.userRepository.findOne({
-    id: userId,
-  })
+  const user = await ctx.state.userRepository.findOne(userId)
 
   if (!user) {
     return ctx.throw(404)

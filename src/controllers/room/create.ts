@@ -3,6 +3,10 @@ import { Context } from 'koa'
 export const createRoom = async (ctx: Context) => {
   const { body: { username, name, avatarColor } } = ctx.request
 
+  const room = await ctx.state.roomRepository.save({
+    name,
+  })
+
   const red = await ctx.state.teamRepository.save({
     name: 'Red Team'
   })
@@ -16,18 +20,14 @@ export const createRoom = async (ctx: Context) => {
     avatarColor,
   })
 
-  const room = await ctx.state.roomRepository.save({
-    name,
-    users: [user],
-    red,
-    blue,
-  })
+  room.red = red
+  room.blue = blue
+  room.users = [user]
+
+  await ctx.state.roomRepository.save(room)
 
   ctx.body = {
-    room: await ctx.state.roomRepository.findOne({
-      id: room.id,
-      relations: ['users', 'red', 'blue'],
-    }),
+    room,
     user,
   }
 }

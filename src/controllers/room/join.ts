@@ -4,9 +4,8 @@ import { SocketEvents } from 'constants/socketEvents'
 export const joinRoom = async (ctx: Context) => {
   const { body: { roomId, username, avatarColor } } = ctx.request
 
-  const room = await ctx.state.roomRepository.findOne({
-    id: roomId,
-    relations: ['users', 'red'],
+  const room = await ctx.state.roomRepository.findOne(roomId, {
+    relations: ['users', 'red', 'blue'],
   })
 
   if (!room) {
@@ -25,10 +24,7 @@ export const joinRoom = async (ctx: Context) => {
   ctx.io.sockets.in(room.id).emit(SocketEvents.userConnected, user)
 
   ctx.body = {
-    room: await ctx.state.roomRepository.findOne({
-      id: roomId,
-      relations: ['users', 'red', 'blue'],
-    }),
+    room,
     user,
   }
 }

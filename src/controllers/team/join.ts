@@ -3,9 +3,7 @@ import { SocketEvents } from 'constants/socketEvents'
 export const joinTeam = async ctx => {
   const { id } = ctx.request.body
 
-  const team = await ctx.state.teamRepository.findOne({
-    id,
-  })
+  const team = await ctx.state.teamRepository.findOne(id)
 
   if (!team) {
     return ctx.throw(404)

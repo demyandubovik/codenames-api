@@ -27,5 +27,6 @@ export const connect = () => createConnection({
   synchronize: true,
   dropSchema: true,
   logging: false,
+  cache: false,
   entities,
 })
