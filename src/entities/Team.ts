@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm'
 import { User } from 'entities/User'
+import { Game } from 'entities/Game'
 
 @Entity()
 export class Team {
@@ -18,4 +19,7 @@ export class Team {
 
   @Column('text', { nullable: true })
   captainId: string
+
+  @OneToMany(type => Game, game => game.activeTeam)
+  activeGames: Game[]
 }

@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm'
 import { User } from 'entities/User'
 import { Team } from 'entities/Team'
+import { Game } from 'entities/Game'
 
 @Entity()
 export class Room {
@@ -21,4 +22,7 @@ export class Room {
   @OneToOne(type => Team)
   @JoinColumn()
   blue: Team
+
+  @OneToMany(type => Game, game => game.room)
+  games: Game[]
 }

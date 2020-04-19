@@ -1,9 +1,7 @@
 export const authenticationMiddleware = async (ctx, next) => {
   const userId = ctx.request.headers['user-id']
   if (userId) {
-    const user = await ctx.state.userRepository.findOne({
-      id: userId,
-    }, {
+    const user = await ctx.state.userRepository.findOne(userId, {
       relations: ['room'],
     })
 

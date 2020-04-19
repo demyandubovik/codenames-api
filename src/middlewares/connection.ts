@@ -2,6 +2,9 @@ import { createConnection, getConnection } from 'typeorm'
 import { User } from 'entities/User'
 import { Room } from 'entities/Room'
 import { Team } from 'entities/Team'
+import { Word } from 'entities/Word'
+import { Game } from 'entities/Game'
+import { CustomGameRepository } from 'repositories/GameRepository'
 
 require('dotenv').config()
 
@@ -9,15 +12,21 @@ const entities = [
   User,
   Room,
   Team,
+  Word,
+  Game,
 ]
 
 export const connectionMiddleware = async (ctx, next) => {
   ctx.state.connection = await getConnection()
+
   entities.forEach(entity => {
     ctx.state[
       `${ctx.state.connection.getMetadata(entity).name.toLowerCase()}Repository`
     ] = ctx.state.connection.getRepository(entity)
   })
+
+  ctx.state.customGameRepository = ctx.state.connection.getCustomRepository(CustomGameRepository)
+
   await next()
 }
 

@@ -10,6 +10,7 @@ import http from 'http'
 import socket from 'socket.io'
 import { onConnect } from 'socket'
 import { whiteList } from 'constants/origins'
+import { wordsTransaction } from 'transactions/wordsTransaction'
 
 const app = new Koa()
 
@@ -37,7 +38,8 @@ app
   .use(router.allowedMethods())
 
 connect()
-  .then(() => {
+  .then(async connection => {
+    await wordsTransaction(connection)
     console.log('Successfully connected to Database')
     server.listen(process.env.PORT || 3000)
   })
