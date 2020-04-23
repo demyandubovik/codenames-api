@@ -25,6 +25,7 @@ export const createGame = async ctx => {
   const game = await ctx.state.gameRepository.save({
     roomId,
     schema: [],
+    answered: [],
     activeTeam: room[firstTeam].id,
     startTeamId: room[firstTeam].id,
   })
