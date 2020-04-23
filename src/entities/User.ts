@@ -15,13 +15,12 @@ export class User {
   @Column('text', { nullable: false })
   avatarColor: string
 
-
   @ManyToOne(type => Room, room => room.users)
   room: Room
 
   @ManyToOne(type => Team, team => team.users)
   team: Team
 
-  @Column('number', { nullable: true })
-  teamId: number
+  @Column('text', { nullable: true })
+  teamId: string
 }

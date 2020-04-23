@@ -12,6 +12,9 @@ export class Game {
   @Column('text', { array: true })
   schema: string[]
 
+  @Column('text', { nullable: false })
+  startTeamId: string
+
   @Column('boolean', { default: false })
   finished: boolean
 
