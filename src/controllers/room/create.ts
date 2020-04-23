@@ -1,4 +1,5 @@
 import { Context } from 'koa'
+import { WordTypes } from 'repositories/GameRepository'
 
 export const createRoom = async (ctx: Context) => {
   const { body: { username, name, avatarColor } } = ctx.request
@@ -8,11 +9,13 @@ export const createRoom = async (ctx: Context) => {
   })
 
   const red = await ctx.state.teamRepository.save({
-    name: 'Red Team'
+    name: 'Red Team',
+    type: WordTypes.red,
   })
 
   const blue = await ctx.state.teamRepository.save({
-    name: 'Blue Team'
+    name: 'Blue Team',
+    type: WordTypes.blue,
   })
 
   const user = await ctx.state.userRepository.save({

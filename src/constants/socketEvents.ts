@@ -4,4 +4,5 @@ export enum SocketEvents {
   userUpdate = 'userUpdate',
   teamUpdate = 'teamUpdate',
   gameCreated = 'gameCreated',
+  gameUpdate = 'gameUpdate',
 }

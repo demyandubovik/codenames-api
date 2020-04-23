@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm'
 import { User } from 'entities/User'
 import { Game } from 'entities/Game'
+import { Move } from 'entities/Move'
 
 @Entity()
 export class Team {
@@ -10,6 +11,9 @@ export class Team {
 
   @Column('text', { nullable: false })
   name: string
+
+  @Column('text', { nullable: false })
+  type: 'red' | 'blue'
 
   @OneToMany(type => User, user => user.team)
   users: User[]
@@ -22,4 +26,7 @@ export class Team {
 
   @OneToMany(type => Game, game => game.activeTeam)
   activeGames: Game[]
+
+  @OneToMany(type => Move, move => move.team)
+  moves: Move[]
 }

@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinTable } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinTable, OneToMany } from 'typeorm'
 import { Word } from 'entities/Word'
 import { Room } from 'entities/Room'
 import { Team } from 'entities/Team'
+import { Move } from 'entities/Move'
 
 @Entity()
 export class Game {
@@ -53,4 +54,7 @@ export class Game {
 
   @Column('text', { nullable: true })
   roomId: string
+
+  @OneToMany(type => Move, move => move.game)
+  moves: Move[]
 }

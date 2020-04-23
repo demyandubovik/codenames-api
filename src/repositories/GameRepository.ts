@@ -44,7 +44,7 @@ export class CustomGameRepository extends AbstractRepository<Game> {
 
   async get(id) {
     const game = await this.repository.findOne(id, {
-      relations: ['activeTeam', 'winner'],
+      relations: ['activeTeam', 'winner', 'moves'],
     })
 
     const schema = await this.getScheme(game.id, false)
@@ -57,7 +57,7 @@ export class CustomGameRepository extends AbstractRepository<Game> {
 
   async getForCaptain(id) {
     const game = await this.repository.findOne(id, {
-      relations: ['activeTeam', 'winner'],
+      relations: ['activeTeam', 'winner', 'moves'],
     })
 
     const schema = await this.getScheme(game.id, true)

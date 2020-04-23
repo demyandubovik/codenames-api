@@ -5,6 +5,7 @@ import { Team } from 'entities/Team'
 import { Word } from 'entities/Word'
 import { Game } from 'entities/Game'
 import { CustomGameRepository } from 'repositories/GameRepository'
+import { Move } from 'entities/Move'
 
 require('dotenv').config()
 
@@ -14,6 +15,7 @@ const entities = [
   Team,
   Word,
   Game,
+  Move,
 ]
 
 export const connectionMiddleware = async (ctx, next) => {

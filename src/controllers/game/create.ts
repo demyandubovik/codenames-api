@@ -1,22 +1,20 @@
 import sampleSize from 'lodash.samplesize'
 import difference from 'lodash.difference'
 import shuffle from 'lodash.shuffle'
-import { SocketEvents } from 'constants/socketEvents'
 import { isCaptain } from 'helpers/user'
+import { sendGameUpdate } from 'helpers/socket'
 
 export const createGame = async ctx => {
   const roomId = ctx.state.user.room.id
 
-  if (await ctx.state.gameRepository.findOne({ roomId, active: true })) {
+  if (await ctx.state.gameRepository.findOne({ roomId, finished: false })) {
     return ctx.throw(403)
   }
 
   const firstTeam = sampleSize(['red', 'blue'])[0]
   const secondTeam = difference(['red', 'blue'], [firstTeam])[0]
 
-  const room = await ctx.state.roomRepository.findOne(roomId, {
-    relations: ['red', 'blue'],
-  })
+  const { room } = ctx.state
 
   // if (!room.red.captainId || !room.blue.captainId) {
   //   return ctx.throw(403)
@@ -63,15 +61,8 @@ export const createGame = async ctx => {
 
   const data = await ctx.state.customGameRepository.get(game.id)
   const captainData = await ctx.state.customGameRepository.getForCaptain(game.id)
-  const sockets = ctx.io.sockets.in(room.id).sockets
 
-  Object.keys(sockets).forEach(socketId => {
-    const { userId } = sockets[socketId]
-
-    if (userId === ctx.state.user.id) return
-
-    ctx.io.to(socketId).emit(SocketEvents.gameCreated, isCaptain(userId, room) ? captainData : data)
-  })
+  sendGameUpdate({ room, user: ctx.state.user, io: ctx.io, captainData, data })
 
   ctx.body = isCaptain(ctx.state.user.id, room)
     ? captainData
