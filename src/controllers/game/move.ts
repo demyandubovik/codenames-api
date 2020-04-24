@@ -36,7 +36,7 @@ export const move = async ctx => {
     if (word.type === WordTypes.killer) {
       game.finished = true
       game.winner = inversedTeam
-    } else if (word.type !== WordTypes.neutral) {
+    } else {
       game.activeTeam = inversedTeam
     }
   }
