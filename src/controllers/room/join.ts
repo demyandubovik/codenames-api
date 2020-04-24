@@ -21,10 +21,22 @@ export const joinRoom = async (ctx: Context) => {
 
   await ctx.state.roomRepository.save(room)
 
+  const activeGame = await ctx.state.gameRepository.findOne({
+    roomId: room.id,
+    active: true,
+  })
+
+  const isCaptain = user.id === room.red.captainId || user.id === room.blue.captainId
+
+  const game = activeGame
+    ? await ctx.state.customGameRepository[isCaptain ? 'getForCaptain' : 'get'](activeGame.id)
+    : null
+
   ctx.io.sockets.in(room.id).emit(SocketEvents.userConnected, user)
 
   ctx.body = {
     room,
     user,
+    game,
   }
 }
