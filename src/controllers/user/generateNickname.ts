@@ -1,5 +1,6 @@
 import { random } from 'helpers/math'
 import { additions, adjectives, defaultEndings, nouns } from 'constants/nicknames'
+import { capitalize } from 'helpers/common'
 
 export const generateNickname = async ctx => {
   const gender = random()
@@ -14,6 +15,6 @@ export const generateNickname = async ctx => {
   const username = `${adjective ? `${adjective[0]}${adjective[gender + 1] || defaultEndings[gender]} ` : ''}${noun}${addition ? ` ${addition}` : ''}`
 
   ctx.body = {
-    username,
+    username: capitalize(username),
   }
 }
