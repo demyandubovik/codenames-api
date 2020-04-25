@@ -1,5 +1,6 @@
 import { Context } from 'koa'
 import { WordTypes } from 'repositories/GameRepository'
+import { getRandomTeamName } from 'helpers/common'
 
 export const createRoom = async (ctx: Context) => {
   const { body: { username, name, avatarColor } } = ctx.request
@@ -8,13 +9,16 @@ export const createRoom = async (ctx: Context) => {
     name,
   })
 
+  const redName = getRandomTeamName()
+  const blueName = getRandomTeamName([redName])
+
   const red = await ctx.state.teamRepository.save({
-    name: 'Red Team',
+    name: redName,
     type: WordTypes.red,
   })
 
   const blue = await ctx.state.teamRepository.save({
-    name: 'Blue Team',
+    name: blueName,
     type: WordTypes.blue,
   })
 

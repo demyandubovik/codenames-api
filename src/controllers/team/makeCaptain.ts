@@ -1,7 +1,7 @@
 import { SocketEvents } from 'constants/socketEvents'
 
 export const makeCaptain = async ctx => {
-  const { teamId, userId } = ctx.request.body
+  const { teamId } = ctx.request.body
 
   const team = await ctx.state.teamRepository.findOne(teamId)
 
@@ -9,29 +9,13 @@ export const makeCaptain = async ctx => {
     return ctx.throw(404)
   }
 
-  if (!team.captainId) {
-    team.captainId = ctx.state.user.id
-
-    await ctx.state.teamRepository.save(team)
-
-    ctx.io.sockets.in(ctx.state.user.room.id).emit(SocketEvents.teamUpdate, team)
-    ctx.body = team
-    return
-  }
-
-  if (team.captainId !== ctx.state.user.id || !userId) {
+  if (team.id !== ctx.state.user.teamId) {
     return ctx.throw(403)
   }
 
-  const user = await ctx.state.userRepository.findOne(userId)
-
-  if (!user) {
-    return ctx.throw(404)
-  }
-
-  team.captainId = user.id
-
+  team.captainId = ctx.state.user.id
   await ctx.state.teamRepository.save(team)
+
   ctx.io.sockets.in(ctx.state.user.room.id).emit(SocketEvents.teamUpdate, team)
   ctx.body = team
 }
