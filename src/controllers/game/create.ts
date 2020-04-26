@@ -7,9 +7,9 @@ import { sendGameUpdate } from 'helpers/socket'
 export const createGame = async ctx => {
   const roomId = ctx.state.user.room.id
 
-  if (await ctx.state.gameRepository.findOne({ roomId, finished: false })) {
-    return ctx.throw(403)
-  }
+  // if (await ctx.state.gameRepository.findOne({ roomId, finished: false })) {
+  //   return ctx.throw(403)
+  // }
 
   const firstTeam = sampleSize(['red', 'blue'])[0]
   const secondTeam = difference(['red', 'blue'], [firstTeam])[0]
